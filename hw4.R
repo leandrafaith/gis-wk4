@@ -3,6 +3,7 @@
 library(sf)
 library(tidyverse)
 library(here)
+library(tmap)
 
 csv <- read_csv(here("data", "Gender Inequality Index (GII).csv"),
                 skip=5, n_max=189, 
