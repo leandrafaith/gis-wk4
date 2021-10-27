@@ -13,11 +13,11 @@ clean_csv <- csv %>%
 
 world_map <- st_read(here("data", "World_Countries__Generalized_.shp"))
 
-Datatypelist <- clean_csv %>% 
-  summarise_all(class) %>%
-  pivot_longer(everything(), 
-               names_to="All_variables", 
-               values_to="Variable_class")
+#Datatypelist <- clean_csv %>% 
+#  summarise_all(class) %>%
+#  pivot_longer(everything(), 
+#               names_to="All_variables", 
+#               values_to="Variable_class")
 
 #shape <- world_map %>%
 #  left_join(.,
