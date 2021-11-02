@@ -1,0 +1,52 @@
+---
+title: "gis-hw4"
+author: "Leandra"
+date: "11/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Packages
+
+```{r message=FALSE}
+library(sf)
+library(tidyverse)
+library(here)
+library(countrycode)
+library(janitor)
+```
+
+## Load Data
+
+Data Sources:
+[Gender Inequality Index (GII)](http://hdr.undp.org/en/indicators/68606#)
+[World Spatial Data](https://hub.arcgis.com/datasets/2b93b06dc0dc4e809d3c8db5cb96ba69_0/explore?location=-0.159771%2C0.000000%2C1.00)
+
+```{r}
+HDI <- read_csv(here("data", "Gender Inequality Index (GII).csv"),
+                skip=5, n_max=189, 
+                na = "..", 
+                locale = locale(encoding = "latin1"))
+
+world_map <- st_read(here("data", "World_Countries__Generalized_.shp"))
+```
+## Data Processing
+```{r}
+clean_HDI <- HDI %>%
+  select(c("Country", "2010", "2019")) %>%
+  mutate(diff = `2019`-`2010`) %>%
+  mutate(iso_code = countrycode(Country, origin="country.name", destination="iso2c"))
+```
+
+## Join the Data
+```{r}
+shape <- world_map %>%
+  left_join(.,
+        clean_HDI,
+        by = c("AFF_ISO" = "iso_code"))
+```
+
+
